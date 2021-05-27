@@ -3,6 +3,15 @@ import Axios from 'axios';
 import HPReport from './HPReport';
 import './App.css';
 
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';  
+import TableCell from '@material-ui/core/TableCell';  
+import TableContainer from '@material-ui/core/TableContainer';  
+import TableHead from '@material-ui/core/TableHead';  
+import TableRow from '@material-ui/core/TableRow';  
+
 const Report = (props) => {
 	const [locations,setLocations] = useState([])
 	const [reportData,setReportData] = useState([])
@@ -56,18 +65,18 @@ const Report = (props) => {
 					<h2>CDM Monthly Report For Diabetic and Hypertensive Patients</h2>
 				</div>
 				<div className="modal-body">
-					<table>
-		      	<thead>
-		      		<tr>
-		      			<th>Month</th>
-		      			<th>Location</th>
-			      			<th>New Hypertensive</th>
-			      			<th>Known Hypertensive</th>
-			      			<th>New Diabetic</th>
-			      			<th>Known Diabetic</th>
-		      			</tr>
-		        </thead>
-		        <tbody>
+					<Table>
+		      	<TableHead>
+		      		<TableRow>
+		      			<TableCell>Month</TableCell>
+		      			<TableCell>Location</TableCell>
+			      			<TableCell>New Hypertensive</TableCell>
+			      			<TableCell>Known Hypertensive</TableCell>
+			      			<TableCell>New Diabetic</TableCell>
+			      			<TableCell>Known Diabetic</TableCell>
+		      			</TableRow>
+		        </TableHead>
+		        <TableBody>
 		        {locations.map((val) => {
 		        	const loc = props.nhdata.find(record => record.name==val.name)
 		        	if(loc != null){
@@ -104,20 +113,20 @@ const Report = (props) => {
 			        	val['Known Diabetic'] = 0
 			        	
 			        }
-			        return <tr>
+			        return <TableRow>
 			        	<td>2021-05</td>
 			        	<td>{val.name}</td>
 			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'newhypertensive')}}>{val['New Hypertensive']}</button></td>
 			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'knownhypertensive')}}>{val['Known Hypertensive']}</button></td>
 			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'newdiabetic')}}>{val['New Diabetic']}</button></td>
 			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'knowndiabetic')}}>{val['Known Diabetic']}</button></td>
-			        </tr>
+			        </TableRow>
 			    })}
-			    </tbody>
-	      	</table>
+			    </TableBody>
+	      	</Table>
 				</div>
 				<div className="modal-footer">
-					<button className="closemodal" onClick={props.onClose}>Close</button>
+					<Button variant="contained" style={{backgroundColor:"#ff0000",color:'white'}} onClick={props.onClose}>Close</Button>
 				</div>
 			</div>
 			<HPReport show={show} data={patientData} onClose={() => setShow(false)}/>

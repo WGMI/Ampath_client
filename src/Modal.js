@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Button from '@material-ui/core/Button';
 
 const Modal = (props) => {
 	if(!props.show){
@@ -19,7 +20,7 @@ const Modal = (props) => {
 					<p>DM Status: {props.details.dm_status}</p>
 				</div>
 				<div className="modal-footer">
-					<button className="closemodal" onClick={props.onClose}>Close</button>
+					<Button variant="contained" style={{backgroundColor:"#ff0000",color:'white'}} className="closemodal" onClick={props.onClose}>Close</Button>
 				</div>
 			</div>
 		</div>

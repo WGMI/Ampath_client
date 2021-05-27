@@ -5,6 +5,16 @@ import Modal from './Modal';
 import Report from './Report';
 import HPReport from './HPReport';
 
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';  
+import TableCell from '@material-ui/core/TableCell';  
+import TableContainer from '@material-ui/core/TableContainer';  
+import TableHead from '@material-ui/core/TableHead';  
+import TableRow from '@material-ui/core/TableRow';  
+
+
 function App() {
 	const [patient,setPatient] = useState('')
 	const [patientList,setPatientList] = useState([]);
@@ -116,39 +126,39 @@ function App() {
 
 	return (
 	    <div className="container">
-	      <h1>Chronic Disease Management System</h1>
-	      <p>Search Patient Records</p>
-	      <input type="text" placeholder="Patient Name" onChange={(e) => {
+	      <h1 style={{fontFamily:'Cochin'}}>Chronic Disease Management System</h1>
+	      <TextField type="text" placeholder="Search Patients" onChange={(e) => {
 	      	setPatient(e.target.value)
 	      }}/>
-	      <button onClick={search}>
-	      	Search
-	      </button>
-	      <button onClick={reset}>
-	      	View All
-	      </button>
 	      <br/>
-	      <button onClick={showReport}>
+	      <Button variant="contained" color="primary" onClick={search} style={{marginRight:10,marginTop:10}}>
+	      	Search
+	      </Button>
+	      <Button variant="contained" color="secondary" onClick={reset} style={{marginRight:10,marginTop:10}}>
+	      	View All
+	      </Button>
+	      <br/>
+	      <Button variant="contained" color="primary" onClick={showReport} style={{marginRight:10,marginTop:10,marginBottom:10}}>
 	      	View CDM Monthly Report
-	      </button>
+	      </Button>
 	      <div id="searchresults">
-	      	<table>
-		      	<thead>
-		      		<tr><th>ID</th><th>Name</th><th>Date of Birth</th><th>Gender</th><th>Phone Number</th><th>Action</th></tr>
-		        </thead>
-		        <tbody>
+	      	<Table>
+		      	<TableHead>
+		      		<TableRow><TableCell>ID</TableCell><TableCell>Name</TableCell><TableCell>Date of Birth</TableCell><TableCell>Gender</TableCell><TableCell>Phone Number</TableCell><TableCell>Action</TableCell></TableRow>
+		        </TableHead>
+		        <TableBody>
 		        {patientList.map((val) => {
-			        return <tr>
-			        	<td>{val.patient_id}</td>
-			        	<td>{val.name}</td>
-			        	<td>{val.dob}</td>
-			        	<td>{val.gender}</td>
-			        	<td>{val.phone_number}</td>
-			        	<td><button onClick={() => viewPatient(val.patient_id)}>View</button></td>
-			        </tr>
+			        return <TableRow>
+			        	<TableCell>{val.patient_id}</TableCell>
+			        	<TableCell>{val.name}</TableCell>
+			        	<TableCell>{val.dob}</TableCell>
+			        	<TableCell>{val.gender}</TableCell>
+			        	<TableCell>{val.phone_number}</TableCell>
+			        	<TableCell><Button onClick={() => viewPatient(val.patient_id)} variant="contained" style={{backgroundColor:"#add8e6"}}>Details</Button></TableCell>
+			        </TableRow>
 			    })}
-			    </tbody>
-	      	</table>
+			    </TableBody>
+	      	</Table>
 	      </div>
 	      <Modal details={details} show={show} onClose={() => setShow(false)}/>
 	      <Report 
