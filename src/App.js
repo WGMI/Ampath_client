@@ -20,9 +20,10 @@ function App() {
 	const [showHPReport,setShowHPReport] = useState(false)
 
 	const search = () => {
-		Axios.get(`http://localhost:3001/patientsearch/${patient}`).then((response) => {
-			setPatientList(response.data)
-		})
+		const results = []
+		const singlepatient = patientList.find(record => record.name.toLowerCase()==patient.toLowerCase())
+		results.push(singlepatient)
+		setPatientList(results)
 	}
 
 	const reset = () => {
