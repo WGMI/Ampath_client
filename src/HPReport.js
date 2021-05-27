@@ -10,23 +10,21 @@ const Report = (props) => {
 	}
 
 	return (
-		<div className="modal" onClick={props.onClose}>
+		<div className="modal">
 			<div className="report-content" onClick={e => e.stopPropagation()}>
 				<div className="modal-header">
-					<h2>CDM Monthly Report For Diabetic and Hypertensive Patients</h2>
+					<h2>Individual Patient Data</h2>
 				</div>
 				<div className="modal-body">
 					<table>
 		      	<thead>
-		      		<tr><th>Patient Name</th><th>Encounter Date</th><th>Location</th><th>Hypertension Status</th><th>Gender</th><th>Age</th></tr>
+		      		<tr><th>Patient Name</th><th>Encounter Date</th><th>Gender</th><th>Age</th></tr>
 		        </thead>
 		        <tbody>
-		        {props.hppatientdata.map((val) => {
+		        {props.data.map((val) => {
 			        return <tr>
 			        	<td>{val.PatinentName}</td>
 			        	<td>{val.encounter_datetime}</td>
-			        	<td>{val.Location}</td>
-			        	<td>{val.HypertensionStatus}</td>
 			        	<td>{val.gender}</td>
 			        	<td>{val.age}</td>
 			        </tr>

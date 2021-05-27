@@ -1,10 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import Axios from 'axios';
+import HPReport from './HPReport';
 import './App.css';
 
 const Report = (props) => {
 	const [locations,setLocations] = useState([])
 	const [reportData,setReportData] = useState([])
+	const [patientData,setPatientData] = useState([])
+	const [show,setShow] = useState(false)
 
 	useEffect(() => {
 		console.log(props.nddata)
@@ -16,22 +19,53 @@ const Report = (props) => {
 		return null
 	}
 
-	const createReport = () => {
-		console.log(props.nddata)
-	        return null;
-	    
+	const generateReport = (location,category) => {
+		if(category == 'newhypertensive'){
+			Axios.get(`http://localhost:3001/hppertensionreport/${location}`).then((response) => {
+				setPatientData(response.data)
+				setShow(true)
+			})
+		}
+
+		if(category == 'knownhypertensive'){
+			Axios.get(`http://localhost:3001/knownhppertensionreport/${location}`).then((response) => {
+				setPatientData(response.data)
+				setShow(true)
+			})
+		}
+
+		if(category == 'newdiabetic'){
+			Axios.get(`http://localhost:3001/newdiabetic/${location}`).then((response) => {
+				setPatientData(response.data)
+				setShow(true)
+			})
+		}
+
+		if(category == 'knowndiabetic'){
+			Axios.get(`http://localhost:3001/knowndiabetic/${location}`).then((response) => {
+				setPatientData(response.data)
+				setShow(true)
+			})
+		}   
 	}
 
 	return (
 		<div className="modal" onClick={props.onClose}>
 			<div className="report-content" onClick={e => e.stopPropagation()}>
-				<div className="modal-header" onClick={createReport}>
+				<div className="modal-header">
 					<h2>CDM Monthly Report For Diabetic and Hypertensive Patients</h2>
 				</div>
 				<div className="modal-body">
 					<table>
 		      	<thead>
-		      		<tr><th>Month</th><th>Location</th><button className="linkbutton" onClick={props.newHpPatients} style={{}}><th>New Hypertensive</th></button><th>Known Hypertensive</th><th>New Diabetic</th><th>Known Diabetic</th></tr>
+		      		<tr>
+		      			<th>Month</th>
+		      			<th>Location</th>
+			      			<th>New Hypertensive</th>
+			      			<th>Known Hypertensive</th>
+			      			<th>New Diabetic</th>
+			      			<th>Known Diabetic</th>
+		      			</tr>
 		        </thead>
 		        <tbody>
 		        {locations.map((val) => {
@@ -73,10 +107,10 @@ const Report = (props) => {
 			        return <tr>
 			        	<td>2021-05</td>
 			        	<td>{val.name}</td>
-			        	<td>{val['Hypertension Status']}</td>
-			        	<td>{val['Known Hypertensive']}</td>
-			        	<td>{val['New Diabetic']}</td>
-			        	<td>{val['Known Diabetic']}</td>
+			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'newhypertensive')}}>{val['New Hypertensive']}</button></td>
+			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'knownhypertensive')}}>{val['Known Hypertensive']}</button></td>
+			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'newdiabetic')}}>{val['New Diabetic']}</button></td>
+			        	<td><button className="linkbutton" onClick={() => {generateReport(val.name,'knowndiabetic')}}>{val['Known Diabetic']}</button></td>
 			        </tr>
 			    })}
 			    </tbody>
@@ -86,6 +120,7 @@ const Report = (props) => {
 					<button className="closemodal" onClick={props.onClose}>Close</button>
 				</div>
 			</div>
+			<HPReport show={show} data={patientData} onClose={() => setShow(false)}/>
 		</div>
 	)
 } 

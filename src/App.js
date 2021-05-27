@@ -91,13 +91,26 @@ function App() {
 		})*/
 	}
 
-	const showHPPatientsReport = () => {
-		Axios.get(`http://localhost:3001/hppatientsreport`).then((response) => {
-			//setNhdata(response.data)
-			setHppatientdata(response.data)
-			setShowHPReport(true)
-		})
-		setShowReportModal(false)
+	const showPatientsReport = (report) => {
+		/*switch (response){
+			case 1:
+				Axios.get(`http://localhost:3001/hppatientsreport`).then((response) => {
+					//setNhdata(response.data)
+					setHppatientdata(response.data)
+					setShowHPReport(true)
+				})
+				setShowReportModal(false)
+				}
+				break;
+			case 2:
+				Axios.get(`http://localhost:3001/khppatientsreport`).then((response) => {
+					//setNhdata(response.data)
+					setHppatientdata(response.data)
+					setShowHPReport(true)
+				})
+				setShowReportModal(false)
+				}
+				break;*/
 	}
 
 	return (
@@ -145,7 +158,11 @@ function App() {
 	      	hddata={hddata} 
 	      	show={showReportModal} 
 	      	onClose={() => setShowReportModal(false)}
-	      	newHpPatients={showHPPatientsReport}/>
+	      	newHpPatients={() => {showPatientsReport(1)}}
+	      	knownHpPatients={() => {showPatientsReport(2)}}
+	      	newDPatients={() => {showPatientsReport(3)}}
+	      	knownDPatients={() => {showPatientsReport(4)}}
+	      	/>
 	      <HPReport hppatientdata={hppatientdata} show={showHPReport} onClose={() => setShowHPReport(false)}/>
 	    </div>
   	);
